@@ -1,2 +1,2 @@
 Регистрация и авторизация по JWT на Golang + React + MySQL
-Бекенд - 
+Бекенд - https://github.com/fbrtyu/golangAppWeb
