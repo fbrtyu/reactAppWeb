@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import root from './index.js';
 import setProfile from './Profile.js';
-
+//Функция для получения данных куки по их имени
 function getCookie(name) {
   let match = document.cookie
     .split('; ')
@@ -10,9 +10,9 @@ function getCookie(name) {
 
   return match ? match.split('=')[1] : undefined;
 }
-
+//Если куки нет, то будет предлагать страница авторизации/регистрации иначе будет открываться профиль
 function App() {
-  var gc = getCookie("jwt");
+  var gc = getCookie("accessToken");
   if (gc != undefined) {
     setProfile();
   } else {
@@ -60,14 +60,14 @@ function loginFunc() {
 
   const params = "login=" + login + "&password=" + password;
 
+  request.withCredentials = true;
+
   request.open("POST", url, false);
 
   request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
   request.addEventListener("readystatechange", () => {
     if (request.readyState === 4 && request.status === 200) {
-      document.cookie = "jwt=" + request.getResponseHeader("Authorization") + ";max-age=3600";
-      console.log(request.getResponseHeader("Authorization"));
       setProfile();
     }
   });
@@ -100,16 +100,14 @@ function regFunc() {
 
   const params = "login=" + login + "&password1=" + password1 + "&password2=" + password2;
 
-  request.open("POST", url, false);
-
   request.withCredentials = true;
+
+  request.open("POST", url, false);
 
   request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
   request.addEventListener("readystatechange", () => {
-    console.log(request.responseText);
     if (request.readyState === 4 && request.status === 200) {
-      document.cookie = "jwt=" + request.getResponseHeader("Authorization") + ";max-age=3600";
       setProfile();
     }
   });
