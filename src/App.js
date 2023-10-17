@@ -102,6 +102,8 @@ function regFunc() {
 
   request.open("POST", url, false);
 
+  request.withCredentials = true;
+
   request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
   request.addEventListener("readystatechange", () => {
